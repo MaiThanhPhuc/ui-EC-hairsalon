@@ -120,21 +120,17 @@ const SignUp = (props) => {
                                     password: password,
                                     address: address
                                 }).then((respone) => {
-                                    if (respone.ok) {
-                                        if (!respone.body.Error) {
+                                    if (respone.status==200) {
+                                        if (respone.data) {
                                             setIsLoading(false)
                                             Storage.SetItem("customer", {
-                                                id: respone.body.data.id,
-                                                phone: respone.body.data.phone,
-                                                name: respone.body.data.name,
-                                                address: respone.body.data.address,
+                                                id: respone.data.id,
+                                                phone: respone.data.phone,
+                                                name: respone.data.name,
+                                                address: respone.data.address,
                                             })
-                                            props.setCustomer({
-                                                ...respone.body.data,
-                                                password: "****",
-                                            });
                                         }
-                                        history.pushState("/")
+                                        history.push("/")
                                     }
                                     else {
                                         setOpenConfirmModal(true);

@@ -16,6 +16,7 @@ export class ChooseService extends Component {
             agencyId: params.agencyId,
             services: [],
             choosenService: [],
+            choosenServiceId: []
             //isDisabled: false
         }
     }
@@ -23,6 +24,7 @@ export class ChooseService extends Component {
         if (!(this.state.choosenService.some(item => item.id === service.id))) {
             this.setState({
                 choosenService: this.state.choosenService.concat(service),
+                choosenServiceId: this.state.choosenServiceId.concat(service.id),
                 //isDisabled: true
             })
         }
@@ -34,6 +36,7 @@ export class ChooseService extends Component {
     onClickForwardToSlot(choosenServiceList) {
         if (choosenServiceList.length != 0) {
             Storage.SetItem("choosenService", choosenServiceList)
+            Storage.SetItem("choosenServiceID", this.state.choosenServiceId)
             this.props.history.push(`/agency/${this.state.agencyId}/reservation/slots`)
         }
     }

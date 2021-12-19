@@ -63,6 +63,7 @@ export class ChooseSlot extends Component {
                     freeSlot: respone.data.hours
                 })
             })
+        console.log(this.state.freeSlot)
     }
 
     fetchStylist = async () => {

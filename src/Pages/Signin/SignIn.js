@@ -8,6 +8,7 @@ import API from '../../Services/api';
 import Storage from '../../Services/storage';
 import { Loading } from '../../Components/Loading';
 import ConfirmModal from '../../Components/ConfirmModal/ConfirmModal';
+import { Message } from '@mui/icons-material';
 
 const newTheme = createTheme({
   palette: {
@@ -28,7 +29,7 @@ const SignIn = (props) => {
   const [modalContent, setModalContent] = useState("");
   const history = useHistory();
 
-  const customer = props.customer;
+  const customer = Storage.GetItem("customer");
   return !customer ? (
     <ThemeProvider theme={newTheme}>
       <Container component="main" maxWidth="xs">
@@ -99,28 +100,25 @@ const SignIn = (props) => {
                     .then((respone) => {
                       console.log(respone)
                       if (respone.status == 200) {
-                        if (respone.body.data) {
+                        if (respone.data) {
                           setIsLoading(false)
                           Storage.SetItem("customer", {
-                            id: respone.body.data.id,
-                            phone: respone.body.data.phone,
+                            id: respone.data.id,
+                            phone: respone.data.phone,
                           })
 
-                          history.pushState("/")
-
-                          props.setCustomer({
-                            ...respone.body.data,
-                            password: "****",
-                          });
+                          history.push("/")
                           console.log(respone)
                         }
-                        else {
-                          setOpenConfirmModal(true);
-                          setIsLoading(false);
-                          setModalContent(respone.body);
-                          console.log("Error", respone.body);
-                        }
                       }
+                    })
+                    .catch((error) => {
+                      console.log(error.status)
+                      setOpenConfirmModal(true);
+                      setIsLoading(false);
+                      setModalContent("Sai mật khẩu hoặc tài khoản");
+                      console.log("Error", error);
+
                     })
                 }}
               >

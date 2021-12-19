@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
 import { Container, Paper, Grid, Typography, ButtonBase, IconButton, Button } from '@mui/material';
 import { LocationOnSharp } from "@mui/icons-material";
+import { Redirect } from "react-router-dom";
 
 import API from '../../Services/api'
+import Storage from '../../Services/storage'
 import Navbar from '../../Components/Navbar/Navbar'
 import Footer from '../../Components/Footer/Footer'
+
 export default class ChooseAgency extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            agencies: []
+            agencies: [],
+            customer: null
         }
     }
 
@@ -21,21 +25,25 @@ export default class ChooseAgency extends Component {
     fetchAngecy = async () => {
         const respone = await API.get(`agencies`)
         this.setState({
-            agencies: respone.data
+            agencies: respone.data,
         })
         console.log(respone.data)
     }
 
     componentDidMount() {
         this.fetchAngecy()
+        this.setState({
+            customer: Storage.GetItem("customer")
+        })
+        
     }
 
     render() {
-        const { agencies } = this.state
+        const { agencies, customer } = this.state
 
         return (
             <div>
-                <Navbar/>
+                <Navbar />
                 <Container className='booking-service' maxWidth="sm" sx={{ mb: 4 }} >
                     <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                         {
@@ -115,8 +123,8 @@ export default class ChooseAgency extends Component {
                         }
                     </Paper>
                 </Container>
-                <Footer/>
+                <Footer />
             </div>
-        )
+        );
     }
 }
