@@ -13,8 +13,7 @@ export default class ChooseAgency extends Component {
         super(props)
 
         this.state = {
-            agencies: [],
-            customer: null
+            agencies: []
         }
     }
 
@@ -39,9 +38,10 @@ export default class ChooseAgency extends Component {
     }
 
     render() {
-        const { agencies, customer } = this.state
+        const { agencies } = this.state
 
-        return (
+        const customer = Storage.GetItem('customer')
+        return customer ? (
             <div>
                 <Navbar />
                 <Container className='booking-service' maxWidth="sm" sx={{ mb: 4 }} >
@@ -125,6 +125,8 @@ export default class ChooseAgency extends Component {
                 </Container>
                 <Footer />
             </div>
+        ):(
+            <Redirect to="/sign-in"/>
         );
     }
 }
