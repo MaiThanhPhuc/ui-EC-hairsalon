@@ -120,9 +120,12 @@ const SignUp = (props) => {
                                     password: password,
                                     address: address
                                 }).then((respone) => {
-                                    if (respone.status==200) {
+                                    if (respone.status == 200) {
                                         if (respone.data) {
-                                            setIsLoading(false)
+                                            setOpenConfirmModal(true);
+                                            setIsLoading(false);
+                                            setModalContent("Đăng ký thành công!");
+                                            
                                             Storage.SetItem("customer", {
                                                 id: respone.data.id,
                                                 phone: respone.data.phone,
@@ -132,12 +135,11 @@ const SignUp = (props) => {
                                         }
                                         history.push("/")
                                     }
-                                    else {
-                                        setOpenConfirmModal(true);
-                                        setIsLoading(false);
-                                        setModalContent(respone.body);
-                                        console.log("Error", respone.body);
-                                    }
+                                }).catch((error) => {
+                                    setOpenConfirmModal(true);
+                                    setIsLoading(false);
+                                    setModalContent("Lỗi không xác định!");
+                                    console.log("Error", error.body);
                                 })
 
                             }}

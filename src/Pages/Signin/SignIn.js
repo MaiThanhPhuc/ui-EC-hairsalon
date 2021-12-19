@@ -100,8 +100,10 @@ const SignIn = (props) => {
                     .then((respone) => {
                       console.log(respone)
                       if (respone.status == 200) {
+                        setIsLoading(false);
+                        setOpenConfirmModal(true);
+                        setModalContent("Đăng nhập thành công!");
                         if (respone.data) {
-                          setIsLoading(false)
                           Storage.SetItem("customer", {
                             id: respone.data.id,
                             phone: respone.data.phone,

@@ -57,8 +57,10 @@ export class Checkout extends Component {
                 paypalLink: `${respone.data}`
 
             })
+            window.location.href = this.state.paypalLink
             console.log(this.state.paypalLink)
         })
+
 
     }
     componentDidMount() {
@@ -69,7 +71,7 @@ export class Checkout extends Component {
             choosenSlotID: Storage.GetItem('choosenSlot'),
             choosenService: Storage.GetItem('choosenService'),
             choosenServiceID: Storage.GetItem('choosenServiceID'),
-            clientPhone: '0123456789',
+            clientPhone: Storage.GetItem('customer').phone,
         })
 
     }
@@ -118,9 +120,7 @@ export class Checkout extends Component {
                             </Grid>
                         </Grid>
                         <Button variant="outlined" fullWidth size="large" onClick={() => this.handleOnClick()}>
-                            <a href={paypalLink}>
                                 Click
-                            </a>
                         </Button>
                     </Paper>
                 </Container>
