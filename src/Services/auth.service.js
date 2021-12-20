@@ -1,7 +1,6 @@
 import axios from 'axios'
 import Storage from './storage'
 
-
 const API_URL = `https://hairsalonec.herokuapp.com/api`
 
 

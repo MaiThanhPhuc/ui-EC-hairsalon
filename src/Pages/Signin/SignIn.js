@@ -55,9 +55,7 @@ const SignIn = (props) => {
 
   }
 
-
   const history = useHistory();
-
 
   const user = Storage.GetItem("user");
   return !user ? (
@@ -179,7 +177,7 @@ const SignIn = (props) => {
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2" underline="none">
-                    Forgot password?
+                    
                   </Link>
                 </Grid>
                 <Grid item>

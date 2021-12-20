@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
-import { Avatar, Button, TextField, Link, Grid, Box, Typography, Container, Paper } from '@mui/material';
+import { Avatar, Button, TextField, Link, Grid, Box, Typography, Container, Paper, IconButton, InputAdornment } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { VisibilityOff, Visibility } from '@mui/icons-material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 import AuthService from '../../Services/auth.service'
@@ -20,6 +21,12 @@ const SignUp = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [openConfirmModal, setOpenConfirmModal] = useState(false);
     const [modalContent, setModalContent] = useState("");
+
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+
 
     const history = useHistory();
 
@@ -52,7 +59,7 @@ const SignUp = (props) => {
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <TextField
-                                    required
+
                                     value={fullName}
                                     onChange={(e) => { setFullName(e.target.value) }}
 
@@ -66,7 +73,7 @@ const SignUp = (props) => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    required
+
                                     value={phonenumber}
                                     onChange={(e) => { setPhonenumber(e.target.value) }}
 
@@ -80,7 +87,7 @@ const SignUp = (props) => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    required
+
                                     value={address}
                                     onChange={(e) => { setAddress(e.target.value) }}
 
@@ -93,7 +100,7 @@ const SignUp = (props) => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    required
+
                                     value={password}
                                     onChange={(e) => { setPassword(e.target.value) }}
 
@@ -104,6 +111,19 @@ const SignUp = (props) => {
                                     id="password"
                                     color='secondary'
                                     autoComplete="new-password"
+                                    inputProps={{
+                                        endAdornment: (
+                                          <InputAdornment position="end">
+                                            <IconButton
+                                              aria-label="toggle password visibility"
+                                              onClick={handleClickShowPassword}
+                                              onMouseDown={handleMouseDownPassword}
+                                            >
+                                              {showPassword ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
+                                          </InputAdornment>
+                                        )
+                                      }}
                                 />
                             </Grid>
                         </Grid>
@@ -125,6 +145,10 @@ const SignUp = (props) => {
                                             history.push("/")
                                         }
                                     }).catch((error) => {
+                                        setFullName("")
+                                        setPhonenumber("")
+                                        setPassword("")
+                                        setAddress("")
                                         setOpenConfirmModal(true);
                                         setIsLoading(false);
                                         setModalContent("Lỗi không xác định!");
