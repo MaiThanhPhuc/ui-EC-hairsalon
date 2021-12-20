@@ -65,6 +65,7 @@ export default class ChooseAgency extends Component {
                                                             height: 180,
                                                             maxWidth: "100%",
                                                             maxHeight: "100%",
+                                                            objectFit: "cover",
                                                         }} />
                                                     </ButtonBase>
                                                 </Grid>
@@ -74,13 +75,15 @@ export default class ChooseAgency extends Component {
                                                             <Typography
                                                                 variant="h6"
                                                                 gutterBottom
-                                                                style={{ marginBottom: "1em" }}
+                                                               style={
+                                                                   {
+                                                                       marginLeft: "5px"
+                                                                   }
+                                                               }
                                                             >
                                                                 {agency.name}
                                                             </Typography>
-                                                            <Typography variant="body2" gutterBottom>
 
-                                                            </Typography>
                                                             <Typography
                                                                 variant="body2"
                                                                 color="textSecondary"
@@ -93,6 +96,13 @@ export default class ChooseAgency extends Component {
                                                             >
                                                                 <LocationOnSharp color="gray " fontSize="small" />
                                                                 {agency.address}
+                                                            </Typography>
+                                                            <Typography variant="body2" gutterBottom style={
+                                                                   {
+                                                                       marginLeft: "5px"
+                                                                   }
+                                                               } >
+                                                                     lorem
                                                             </Typography>
                                                         </Grid>
                                                     </Grid>
@@ -117,7 +127,7 @@ export default class ChooseAgency extends Component {
                                             </Grid>
                                         </Paper>
                                     </Container>
-
+//// here
                                 )
                             })
                         }

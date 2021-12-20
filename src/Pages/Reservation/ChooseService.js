@@ -4,7 +4,7 @@ import Storage from '../../Services/storage';
 import Navbar from '../../Components/Navbar/Navbar'
 import Footer from '../../Components/Footer/Footer'
 
-import { Container, Paper, Grid, Typography, ButtonBase, IconButton, Button, Card } from '@mui/material';
+import {  Container, Paper, Grid, Typography, ButtonBase, IconButton, Button, Card,Box } from '@mui/material';
 import { BookOnline } from '@mui/icons-material/BookOnline'
 
 export class ChooseService extends Component {
@@ -68,7 +68,7 @@ export class ChooseService extends Component {
                             services.map((service) => {
                                 return (
                                     <Container maxWidth="sm" sx={{ mb: 4 }} >
-                                        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }, display: "flex", flexDirection: "column" }}>
+                                        <Box  sx={ {  boxShadow: "1px 3px 1px #cccccc", border: '1px solid #cccccc', my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 },   display: "flex",flexDirection:"column", alignItems:"center",justifyContent:"center" }}>
                                             <div>
                                                 <ButtonBase onClick={() => { }} sx={{
                                                     width: 180,
@@ -82,21 +82,24 @@ export class ChooseService extends Component {
                                                         height: 180,
                                                         maxWidth: "100%",
                                                         maxHeight: "100%",
+                                                        objectFit:"contain"
                                                     }} />
                                                 </ButtonBase>
                                             </div>
                                             <div>
                                                 <Grid item xs container direction="column" spacing={2}>
-                                                    <Grid item xs>
+                                                    <div style={{
+                                                            width: "180px"
+                                                    }}>
                                                         <Typography
                                                             variant="h6"
                                                             gutterBottom
-                                                            style={{ marginBottom: "1em" }}
+                                                            style={{
+                                                                fontWeight:"300",
+                                                                fontSize:"16px"
+                                                            }}
                                                         >
                                                             {service.name}
-                                                        </Typography>
-                                                        <Typography variant="body2" gutterBottom>
-
                                                         </Typography>
                                                         <Typography
                                                             variant="body2"
@@ -110,7 +113,7 @@ export class ChooseService extends Component {
                                                         >
                                                             {service.address}
                                                         </Typography>
-                                                    </Grid>
+                                                    </div>
                                                 </Grid>
                                             </div>
                                             <div>
@@ -131,7 +134,7 @@ export class ChooseService extends Component {
                                                 >
                                                 </IconButton>
                                             </div>
-                                        </Paper>
+                                        </Box >
                                     </Container>
                                 )
                             })
