@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
-import { Avatar, Button, TextField, Link, Grid, Box, Typography, Container, Paper } from '@mui/material';
+import { Avatar, Button, TextField, Link, Grid, Box, Typography, Container, Paper, IconButton, InputAdornment } from '@mui/material';
+import { VisibilityOff, Visibility } from '@mui/icons-material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import API from '../../Services/api';
 import Storage from '../../Services/storage';
 import { Loading } from '../../Components/Loading';
 import ConfirmModal from '../../Components/ConfirmModal/ConfirmModal';
-import { Message } from '@mui/icons-material';
+import AuthService from '../../Services/auth.service'
 
 const newTheme = createTheme({
   palette: {
@@ -22,15 +24,43 @@ const newTheme = createTheme({
 });
 
 const SignIn = (props) => {
-  const [phonenumber, setPhonenubmer] = useState("");
-  const [password, setPassword] = useState("");
+  const [state, setState] = useState({ phone: "", password: "" })
   const [isLoading, setIsLoading] = useState(false);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [modalContent, setModalContent] = useState("");
+
+  const [errors, setErrors] = useState({});
+  const [message, setMessage] = useState({})
+
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+  const parseJwt = token => {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(Buffer(base64, 'base64').split('').map(function (c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+  };
+
+  const handleChange = e => {
+    const { name, value } = e.target
+    setState(prevState => ({
+      ...prevState,
+      [name]: value
+    }))
+
+  }
+
+
   const history = useHistory();
 
-  const customer = Storage.GetItem("customer");
-  return !customer ? (
+
+  const user = Storage.GetItem("user");
+  return !user ? (
     <ThemeProvider theme={newTheme}>
       <Container component="main" maxWidth="xs">
         <ConfirmModal
@@ -58,35 +88,48 @@ const SignIn = (props) => {
             <form sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
-                required
-                value={phonenumber}
-                onChange={(e) => {
-                  setPhonenubmer(e.target.value);
-                }}
+                
+                value={state.phone}
+                onChange={handleChange}
 
+                error={errors.phone}
+                helperText={message.phone}
                 fullWidth
-                id="phoneNumber"
+                id="phone"
                 label="Phone number"
-                name="phoneNumber"
-                autoComplete="phone"
+                name="phone"
                 color='secondary'
                 autoFocus
               />
               <TextField
                 margin="normal"
-                required
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
+                
+                value={state.password}
+                onChange={handleChange}
 
+                error={errors.password}
+                helperText={message.password}
                 fullWidth
                 name="password"
                 label="Password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 autoComplete="current-password"
                 color='secondary'
+                inputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+
               />
 
               <Button
@@ -95,32 +138,40 @@ const SignIn = (props) => {
                 sx={{ mt: 3, mb: 2 }}
                 size="large"
                 onClick={() => {
-                  setIsLoading(true);
-                  API.post(`/login?phone=${phonenumber}&password=${password}`)
-                    .then((respone) => {
-                      console.log(respone)
-                      if (respone.status == 200) {
-                        setIsLoading(false);
-                        setOpenConfirmModal(true);
-                        setModalContent("Đăng nhập thành công!");
-                        if (respone.data) {
-                          Storage.SetItem("customer", {
-                            id: respone.data.id,
-                            phone: respone.data.phone,
-                          })
+                  if (true) {
+                    setIsLoading(true);
+                    AuthService.login(state.phone, state.password)
+                      .then((respone) => {
+                        console.log(respone)
+                        if (respone.status == 200) {
+                          setIsLoading(false);
+                          setOpenConfirmModal(true);
+                          setModalContent("Đăng nhập thành công!");
+                          if (respone.data) {
+                            const decodeData = parseJwt(respone.data);
+                            Storage.SetItem("user", {
+                              phone: decodeData.sub,
+                              token: decodeData.access_token,
+                              role: decodeData.Role[0]
+                            })
 
-                          history.push("/")
-                          console.log(respone)
+                            history.push("/")
+                            console.log(respone)
+                          }
                         }
-                      }
-                    })
-                    .catch((error) => {
-                      console.log(error.status)
-                      setOpenConfirmModal(true);
-                      setIsLoading(false);
-                      setModalContent("Sai mật khẩu hoặc tài khoản");
-                      console.log("Error", error);
-                    })
+                      })
+                      .catch((error) => {
+                        console.log(error)
+                        setState({
+                          phone:"",
+                          password:""
+                        })
+                        setOpenConfirmModal(true);
+                        setIsLoading(false);
+                        setModalContent("Sai mật khẩu hoặc tài khoản");
+                        console.log("Error", error);
+                      })
+                  }
                 }}
               >
                 Sign In

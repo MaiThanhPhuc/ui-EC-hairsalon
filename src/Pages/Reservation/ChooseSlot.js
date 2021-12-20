@@ -81,6 +81,7 @@ export class ChooseSlot extends Component {
     render() {
         const { stylists, choosenStylist, choosenSlot, choosenDate, freeSlot, ButtonIsDisable, TimeSlotIsDisabled, DateSlotIsDisabled } = this.state;
         const dateOfWeek = []
+        
         for (let i = 0; i < 7; i++) {
             let d = new Date(new Date().setDate(new Date().getDate() + i))
             dateOfWeek[i] = d.getFullYear().toString() + '-' + (d.getMonth() + 1).toString() + '-' + d.getDate().toString()

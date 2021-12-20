@@ -1,5 +1,14 @@
 import React, { Component } from 'react'
-import { Container, Paper, Grid, Typography, ButtonBase, IconButton, Button } from '@mui/material';
+import {
+    Container,
+    Paper,
+    Grid,
+    Typography,
+    ButtonBase,
+    IconButton,
+    Button,
+    Box
+} from '@mui/material';
 import { LocationOnSharp } from "@mui/icons-material";
 import { Redirect } from "react-router-dom";
 
@@ -34,7 +43,7 @@ export default class ChooseAgency extends Component {
         this.setState({
             customer: Storage.GetItem("customer")
         })
-        
+
     }
 
     render() {
@@ -44,7 +53,7 @@ export default class ChooseAgency extends Component {
         return customer ? (
             <div>
                 <Navbar />
-                <Container className='booking-service' maxWidth="sm" sx={{ mb: 4 }} >
+                <Container className='booking-service' maxWidth="md" sx={{ mb: 4 }} >
                     <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                         {
                             agencies.map((agency) => {
@@ -107,12 +116,7 @@ export default class ChooseAgency extends Component {
                                                     >
                                                         Chọn chi nhánh
                                                     </Button>
-                                                    <IconButton
-                                                        aria-label="delete"
-                                                        size="small"
-                                                    >
-                                                        <LocationOnSharp />
-                                                    </IconButton>
+
                                                 </Grid>
                                             </Grid>
                                         </Paper>
@@ -125,8 +129,8 @@ export default class ChooseAgency extends Component {
                 </Container>
                 <Footer />
             </div>
-        ):(
-            <Redirect to="/sign-in"/>
+        ) : (
+            <Redirect to="/sign-in" />
         );
     }
 }

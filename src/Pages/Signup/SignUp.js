@@ -4,7 +4,7 @@ import { Avatar, Button, TextField, Link, Grid, Box, Typography, Container, Pape
 import { makeStyles } from '@mui/styles';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
-import API from '../../Services/api';
+import AuthService from '../../Services/auth.service'
 import Storage from '../../Services/storage';
 import { Loading } from '../../Components/Loading';
 import ConfirmModal from '../../Components/ConfirmModal/ConfirmModal';
@@ -114,33 +114,22 @@ const SignUp = (props) => {
                             size="large"
                             onClick={() => {
                                 setIsLoading(true);
-                                API.post("/register", {
-                                    name: fullName,
-                                    phone: phonenumber,
-                                    password: password,
-                                    address: address
-                                }).then((respone) => {
-                                    if (respone.status == 200) {
-                                        if (respone.data) {
-                                            setOpenConfirmModal(true);
-                                            setIsLoading(false);
-                                            setModalContent("Đăng ký thành công!");
-                                            
-                                            Storage.SetItem("customer", {
-                                                id: respone.data.id,
-                                                phone: respone.data.phone,
-                                                name: respone.data.name,
-                                                address: respone.data.address,
-                                            })
+                                AuthService.register(fullName, phonenumber, password, address)
+                                    .then((respone) => {
+                                        if (respone.status == 200) {
+                                            if (respone.data) {
+                                                setOpenConfirmModal(true);
+                                                setIsLoading(false);
+                                                setModalContent("Đăng ký thành công!");
+                                            }
+                                            history.push("/")
                                         }
-                                        history.push("/")
-                                    }
-                                }).catch((error) => {
-                                    setOpenConfirmModal(true);
-                                    setIsLoading(false);
-                                    setModalContent("Lỗi không xác định!");
-                                    console.log("Error", error.body);
-                                })
+                                    }).catch((error) => {
+                                        setOpenConfirmModal(true);
+                                        setIsLoading(false);
+                                        setModalContent("Lỗi không xác định!");
+                                        console.log("Error", error.body);
+                                    })
 
                             }}
                         >

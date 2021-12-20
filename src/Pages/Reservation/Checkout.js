@@ -39,10 +39,6 @@ export class Checkout extends Component {
 
     }
     handleOnClick() {
-        console.log(this.state.choosenStylistID)
-        console.log(this.state.choosenDateID)
-        console.log(this.state.choosenSlotID)
-        console.log(this.state.choosenService)
         API.post("/bills/pay/paypal/", {
 
             clientPhone: `${this.state.clientPhone}`,
@@ -55,7 +51,6 @@ export class Checkout extends Component {
             console.log(respone.data)
             this.setState({
                 paypalLink: `${respone.data}`
-
             })
             window.location.href = this.state.paypalLink
             console.log(this.state.paypalLink)
