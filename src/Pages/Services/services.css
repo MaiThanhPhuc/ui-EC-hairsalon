@@ -1,0 +1,23 @@
+.image-container {
+    position: relative;
+    overflow: hidden;
+}
+.image-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    color: #f8f8f8;
+    font-size: 2rem;
+    font-weight: 600;
+    z-index: 4;
+
+}
+.image {
+    z-index: 1;
+    transition: transform .2s;
+}
+.image img:hover {
+    transform: scale(1.05);
+    transition: all 0.3s;
+}

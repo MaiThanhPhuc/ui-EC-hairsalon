@@ -8,12 +8,14 @@ import SignIn from "../Pages/Signin/SignIn"
 import SignUp from '../Pages/Signup/SignUp';
 import Index from '../Pages/Index/index';
 import PageNotfound from '../Pages/PageNotFound/PageNotFound';
+import About from "../Pages/About/About";
 
 import ChooseAgency from '../Pages/Reservation/ChooseAgency';
 import ChooseService from '../Pages/Reservation/ChooseService';
 import ChooseSlot from '../Pages/Reservation/ChooseSlot';
 import Checkout from '../Pages/Reservation/Checkout';
-import About from "../Pages/About/About";
+import Services from "../Pages/Services/Services";
+
 
 function MyRoutes() {
     return (
@@ -22,6 +24,7 @@ function MyRoutes() {
             <Route exact path="/sign-in" component={SignIn} />
             <Route exact path="/sign-up" component={SignUp} />
             <Route exact path="/aboutus" component={About} />
+            <Route exact path="/services" component={Services} />
             <Route exact path="/home" component={Home} />
 
             <Route exact path="/agency" component={ChooseAgency} />

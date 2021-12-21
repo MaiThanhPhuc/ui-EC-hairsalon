@@ -26,7 +26,7 @@ function Navbar() {
                         <Link to='/aboutus' className='nav-link'>Về chúng tôi</Link>
                     </li>
                     <li className='nav-item'>
-                        <Link to='/serivces' className='nav-link'>Dịch vụ</Link>
+                        <Link to='/services' className='nav-link'>Dịch vụ</Link>
                     </li>
 
                     <li className='nav-item'>
