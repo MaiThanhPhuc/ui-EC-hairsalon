@@ -160,6 +160,8 @@ const SignIn = (props) => {
                       })
                       .catch((error) => {
                         console.log(error)
+                        console.log(state.phone)
+                        console.log(state.password)
                         setState({
                           phone:"",
                           password:""
