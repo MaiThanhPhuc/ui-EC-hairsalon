@@ -1,9 +1,21 @@
 import React, { Component } from 'react'
-import { Container, Paper, Grid, Typography, ButtonBase, IconButton, Button } from '@mui/material';
+import {
+    Container,
+    Paper,
+    Grid,
+    Typography,
+    ButtonBase,
+    IconButton,
+    Button,
+    Box
+} from '@mui/material';
 import { LocationOnSharp } from "@mui/icons-material";
 import { Redirect } from "react-router-dom";
 
 import API from '../../Services/api'
+import authHeader from '../../Services/auth-header'
+
+
 import Storage from '../../Services/storage'
 import Navbar from '../../Components/Navbar/Navbar'
 import Footer from '../../Components/Footer/Footer'
@@ -13,8 +25,7 @@ export default class ChooseAgency extends Component {
         super(props)
 
         this.state = {
-            agencies: [],
-            customer: null
+            agencies: []
         }
     }
 
@@ -23,7 +34,8 @@ export default class ChooseAgency extends Component {
     }
 
     fetchAngecy = async () => {
-        const respone = await API.get(`agencies`)
+        const respone = await API.get(`agencies`, { headers: authHeader() })
+        console.log(Storage.GetItem('user').access_token)
         this.setState({
             agencies: respone.data,
         })
@@ -32,19 +44,18 @@ export default class ChooseAgency extends Component {
 
     componentDidMount() {
         this.fetchAngecy()
-        this.setState({
-            customer: Storage.GetItem("customer")
-        })
-        
+
+
     }
 
     render() {
-        const { agencies, customer } = this.state
+        const { agencies } = this.state
 
-        return (
+        const user = Storage.GetItem('user')
+        return user ? (
             <div>
                 <Navbar />
-                <Container className='booking-service' maxWidth="sm" sx={{ mb: 4 }} >
+                <Container className='booking-service' maxWidth="md" sx={{ mb: 4 }} >
                     <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                         {
                             agencies.map((agency) => {
@@ -117,12 +128,7 @@ export default class ChooseAgency extends Component {
                                                     >
                                                         Chọn chi nhánh
                                                     </Button>
-                                                    <IconButton
-                                                        aria-label="delete"
-                                                        size="small"
-                                                    >
-                                                        <LocationOnSharp />
-                                                    </IconButton>
+
                                                 </Grid>
                                             </Grid>
                                         </Paper>
@@ -135,6 +141,8 @@ export default class ChooseAgency extends Component {
                 </Container>
                 <Footer />
             </div>
+        ) : (
+            <Redirect to="/sign-in" />
         );
     }
 }

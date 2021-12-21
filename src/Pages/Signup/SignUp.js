@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
-import { Avatar, Button, TextField, Link, Grid, Box, Typography, Container, Paper } from '@mui/material';
+import { Avatar, Button, TextField, Link, Grid, Box, Typography, Container, Paper, IconButton, InputAdornment } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { VisibilityOff, Visibility } from '@mui/icons-material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
-import API from '../../Services/api';
+import AuthService from '../../Services/auth.service'
 import Storage from '../../Services/storage';
 import { Loading } from '../../Components/Loading';
 import ConfirmModal from '../../Components/ConfirmModal/ConfirmModal';
 
+
+import API from '../../Services/api'
 
 const SignUp = (props) => {
     const [fullName, setFullName] = useState("")
@@ -21,10 +24,16 @@ const SignUp = (props) => {
     const [openConfirmModal, setOpenConfirmModal] = useState(false);
     const [modalContent, setModalContent] = useState("");
 
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+
+
     const history = useHistory();
 
-    const customer = Storage.GetItem("customer")
-    return !customer ? (
+    const user = Storage.GetItem("user")
+    return !user ? (
         <Container component="main" maxWidth="xs">
             <ConfirmModal
                 openConfirmModal={openConfirmModal}
@@ -52,7 +61,7 @@ const SignUp = (props) => {
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <TextField
-                                    required
+
                                     value={fullName}
                                     onChange={(e) => { setFullName(e.target.value) }}
 
@@ -66,7 +75,7 @@ const SignUp = (props) => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    required
+
                                     value={phonenumber}
                                     onChange={(e) => { setPhonenumber(e.target.value) }}
 
@@ -80,7 +89,7 @@ const SignUp = (props) => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    required
+
                                     value={address}
                                     onChange={(e) => { setAddress(e.target.value) }}
 
@@ -93,7 +102,7 @@ const SignUp = (props) => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    required
+
                                     value={password}
                                     onChange={(e) => { setPassword(e.target.value) }}
 
@@ -104,6 +113,19 @@ const SignUp = (props) => {
                                     id="password"
                                     color='secondary'
                                     autoComplete="new-password"
+                                    inputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                >
+                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
+                                    }}
                                 />
                             </Grid>
                         </Grid>
@@ -114,31 +136,37 @@ const SignUp = (props) => {
                             size="large"
                             onClick={() => {
                                 setIsLoading(true);
-                                API.post("/register", {
-                                    name: fullName,
-                                    phone: phonenumber,
-                                    password: password,
-                                    address: address
-                                }).then((respone) => {
-                                    if (respone.status==200) {
-                                        if (respone.data) {
-                                            setIsLoading(false)
-                                            Storage.SetItem("customer", {
-                                                id: respone.data.id,
-                                                phone: respone.data.phone,
-                                                name: respone.data.name,
-                                                address: respone.data.address,
-                                            })
+                                AuthService.register(fullName, phonenumber, password, address)
+                                /*API.post('/register',
+                                    {
+                                        name: fullName,
+                                        phong: phonenumber,
+                                        password: password,
+                                        address: address
+                                    })*/
+                                    .then((respone) => {
+                                        if (respone.status == 200) {
+                                            if (respone.data) {
+                                                setOpenConfirmModal(true);
+                                                setIsLoading(false);
+                                                setModalContent("Đăng ký thành công!");
+                                            }
+                                            history.push("/")
                                         }
-                                        history.push("/")
-                                    }
-                                    else {
+                                    }).catch((error) => {
+                                        console.log(fullName)
+                                        console.log(phonenumber)
+                                        console.log(password)
+                                        console.log(password)
+                                        setFullName("")
+                                        setPhonenumber("")
+                                        setPassword("")
+                                        setAddress("")
                                         setOpenConfirmModal(true);
                                         setIsLoading(false);
-                                        setModalContent(respone.body);
-                                        console.log("Error", respone.body);
-                                    }
-                                })
+                                        setModalContent("Lỗi không xác định!");
+                                        console.log("Error", error.body);
+                                    })
 
                             }}
                         >

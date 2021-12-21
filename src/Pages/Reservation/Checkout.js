@@ -39,10 +39,6 @@ export class Checkout extends Component {
 
     }
     handleOnClick() {
-        console.log(this.state.choosenStylistID)
-        console.log(this.state.choosenDateID)
-        console.log(this.state.choosenSlotID)
-        console.log(this.state.choosenService)
         API.post("/bills/pay/paypal/", {
 
             clientPhone: `${this.state.clientPhone}`,
@@ -55,10 +51,11 @@ export class Checkout extends Component {
             console.log(respone.data)
             this.setState({
                 paypalLink: `${respone.data}`
-
             })
+            window.location.href = this.state.paypalLink
             console.log(this.state.paypalLink)
         })
+
 
     }
     componentDidMount() {
@@ -69,7 +66,7 @@ export class Checkout extends Component {
             choosenSlotID: Storage.GetItem('choosenSlot'),
             choosenService: Storage.GetItem('choosenService'),
             choosenServiceID: Storage.GetItem('choosenServiceID'),
-            clientPhone: '0123456789',
+            clientPhone: Storage.GetItem('user').phone,
         })
 
     }
@@ -118,9 +115,7 @@ export class Checkout extends Component {
                             </Grid>
                         </Grid>
                         <Button variant="outlined" fullWidth size="large" onClick={() => this.handleOnClick()}>
-                            <a href={paypalLink}>
                                 Click
-                            </a>
                         </Button>
                     </Paper>
                 </Container>
