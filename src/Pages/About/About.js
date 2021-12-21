@@ -60,10 +60,10 @@ function About() {
                         <h3 style={{ color:"#9a9388", fontWeight:"500", margin:"1rem 0"}}>
                            CEO
                         </h3>
-                        <h2 style={{marginBottom:"1rem"}}>
+                        <h2 style={{color:"#9a9388",marginBottom:"1rem"}}>
                             RICK NORMAN
                         </h2>
-                        <p style={{}}>
+                        <p style={{color:"#9a9388"}}>
                             Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots.
                         </p>
                     </Grid>
@@ -77,10 +77,10 @@ function About() {
                         <h3 style={{ color:"#9a9388", fontWeight:"500", margin:"1rem 0"}}>
                            Beard Stylist
                         </h3>
-                        <h2 style={{marginBottom:"1rem"}}>
+                        <h2 style={{color:"#9a9388",marginBottom:"1rem"}}>
                             ANDREW NICK
                         </h2>
-                        <p style={{}}>
+                        <p style={{color:"#9a9388"}}>
                             Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots.
                         </p>
                     </Grid>
@@ -94,10 +94,10 @@ function About() {
                         <h3 style={{  color:"#9a9388", fontWeight:"500", margin:"1rem 0"}}>
                            Hair Stylist
                         </h3>
-                        <h2 style={{marginBottom:"1rem"}}>
+                        <h2 style={{color:"#9a9388",marginBottom:"1rem"}}>
                             TOM HENDERS
                         </h2>
-                        <p style={{marginBottom:"3rem"}}>
+                        <p style={{color:"#9a9388",marginBottom:"3rem"}}>
                             Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots.
                         </p>
                     </Grid>
