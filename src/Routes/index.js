@@ -13,6 +13,7 @@ import ChooseAgency from '../Pages/Reservation/ChooseAgency';
 import ChooseService from '../Pages/Reservation/ChooseService';
 import ChooseSlot from '../Pages/Reservation/ChooseSlot';
 import Checkout from '../Pages/Reservation/Checkout';
+import About from "../Pages/About/About";
 
 function MyRoutes() {
     return (
@@ -20,7 +21,9 @@ function MyRoutes() {
             <Route exact path="/" component={Index} />
             <Route exact path="/sign-in" component={SignIn} />
             <Route exact path="/sign-up" component={SignUp} />
+            <Route exact path="/aboutus" component={About} />
             <Route exact path="/home" component={Home} />
+
             <Route exact path="/agency" component={ChooseAgency} />
             <Route exact path="/agency/:agencyId/reservation/services"  component={ChooseService}/>
             <Route exact path="/agency/:agencyId/reservation/slots"  component={ChooseSlot}/>
