@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
+//
 import { Redirect, useHistory } from 'react-router-dom';
 import { Avatar, Button, TextField, Link, Grid, Box, Typography, Container, Paper, IconButton, InputAdornment } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
+//service
 import AuthService from '../../Services/auth.service'
 import Storage from '../../Services/storage';
 import { Loading } from '../../Components/Loading';
 import ConfirmModal from '../../Components/ConfirmModal/ConfirmModal';
 
 
-import API from '../../Services/api'
 
 const SignUp = (props) => {
     const [fullName, setFullName] = useState("")

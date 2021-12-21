@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import Storage from '../../Services/storage'
-import API from '../../Services/api';
+//
 import {
     Container,
     Paper,
@@ -15,9 +14,12 @@ import {
     Select,
     MenuItem
 } from '@mui/material';
-
 import Navbar from '../../Components/Navbar/Navbar'
 import Footer from '../../Components/Footer/Footer'
+
+//services
+import Storage from '../../Services/storage'
+import userService from '../../Services/user.service';
 
 export class ChooseSlot extends Component {
     constructor(props) {
@@ -40,11 +42,16 @@ export class ChooseSlot extends Component {
     handleOnChooseDate(event) {
         this.setState({
             choosenDate: event.target.value,
-            TimeSlotIsDisabled: false
         })
-
-        console.log(this.state.choosenDate)
-        this.fetchFreeSlot()
+        console.log(this.state.freeSlot)
+        userService.getFreeSlot(this.state.choosenStylist, this.state.choosenDate)
+            .then((respone) => {
+                this.setState({
+                    freeSlot: respone.data.hours,
+                    TimeSlotIsDisabled: false
+                })
+            })
+        console.log(this.state.freeSlot)
     }
 
     handleOnClick() {
@@ -54,34 +61,24 @@ export class ChooseSlot extends Component {
         console.log(this.state.choosenStylist)
         console.log(this.state.choosenDate)
         console.log(this.state.choosenSlot)
-        this.props.history.push(`/agency/${this.state.agencyId}/reservation/checkout`)
-    }
-    fetchFreeSlot() {
-        const respone = API.get(`/shift/check?employeeId=${this.state.choosenStylist}&shiftDate=${this.state.choosenDate}`)
-            .then((respone) => {
-                this.setState({
-                    freeSlot: respone.data.hours
-                })
-            })
-        console.log(this.state.freeSlot)
+        //this.props.history.push(`/agency/${this.state.agencyId}/reservation/checkout`)
     }
 
     fetchStylist = async () => {
-        const respone = await API.get('/employees')
+        const respone = await userService.getStylist()
         this.setState({
-            stylists: respone.data.filter(stylist => stylist.agency.id == this.state.agencyId)
+            stylists: respone.data.filter(stylist => stylist.role == "ROLE_STYLIST").filter(stylist => stylist.agency.id == this.state.agencyId)
         })
         console.log(this.state.stylists)
     }
 
     componentDidMount() {
         this.fetchStylist()
-
     }
     render() {
         const { stylists, choosenStylist, choosenSlot, choosenDate, freeSlot, ButtonIsDisable, TimeSlotIsDisabled, DateSlotIsDisabled } = this.state;
         const dateOfWeek = []
-        
+
         for (let i = 0; i < 7; i++) {
             let d = new Date(new Date().setDate(new Date().getDate() + i))
             dateOfWeek[i] = d.getFullYear().toString() + '-' + (d.getMonth() + 1).toString() + '-' + d.getDate().toString()
@@ -90,10 +87,10 @@ export class ChooseSlot extends Component {
         return (
             <>
                 <Navbar />
-                <Container className='booking-service' maxWidth="sm" sx={{ mb: 4 }} >
+                <Container className='booking-service' maxWidth="sm"  sx={{ mb: 4, height:"75vh" }} >
                     <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                         <div style={{ marginBottom: '2px' }}>
-                            chọn nhân viên
+                            Chọn nhân viên
                         </div>
                         <FormControl fullWidth sx={{ my: 2 }}>
                             <InputLabel id="demo-simple-select-label">Chọn nhân viên</InputLabel>
@@ -116,12 +113,15 @@ export class ChooseSlot extends Component {
 
                                 }
                             </Select>
+
                         </FormControl>
+                        <div> Chọn ngày hẹn </div>
                         {
                             <FormControl fullWidth sx={{ my: 2 }}>
                                 <InputLabel id="demo-simple-select-label">Chọn ngày hẹn</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
+                                    defaultValue={dateOfWeek}
                                     id="demo-simple-select"
                                     value={choosenDate}
                                     label="Chọn ngày hẹn"
@@ -139,7 +139,7 @@ export class ChooseSlot extends Component {
                                 </Select>
                             </FormControl>
                         }
-                        <div> chọn giờ hẹn </div>
+                        <div> Chọn giờ hẹn </div>
                         <FormControl fullWidth sx={{ my: 2 }}>
                             <InputLabel id="demo-simple-select-label">Chọn giờ hẹn</InputLabel>
                             <Select
@@ -160,7 +160,6 @@ export class ChooseSlot extends Component {
                                                 <MenuItem value={slot.shift.id}>{slot.shift.shiftFrom}</MenuItem>
                                             )
                                     })
-
                                 }
                             </Select>
                         </FormControl>

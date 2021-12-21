@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+//
 import {
     Container,
     Paper,
@@ -13,11 +13,11 @@ import {
     Divider
 } from '@mui/material';
 import { LocationOnSharp } from "@mui/icons-material";
-
-import API from '../../Services/api'
-import Storage from '../../Services/storage';
 import Navbar from '../../Components/Navbar/Navbar'
 import Footer from '../../Components/Footer/Footer'
+//service
+import Storage from '../../Services/storage';
+import userService from '../../Services/user.service';
 
 export class Checkout extends Component {
     constructor(props) {
@@ -33,21 +33,11 @@ export class Checkout extends Component {
             choosenServiceID: [],
             clientPhone: [],
             paypalLink: [],
-
         }
-
-
     }
     handleOnClick() {
-        API.post("/bills/pay/paypal/", {
-
-            clientPhone: `${this.state.clientPhone}`,
-            employeeId: `${this.state.choosenStylistID}`,
-            paymentId: 5,
-            status: false,
-            idServices: this.state.choosenServiceID,
-            shiftId: this.state.choosenSlotID
-        }).then((respone) => {
+        userService.payment(this.state)
+        .then((respone) => {
             console.log(respone.data)
             this.setState({
                 paypalLink: `${respone.data}`
@@ -55,7 +45,6 @@ export class Checkout extends Component {
             window.location.href = this.state.paypalLink
             console.log(this.state.paypalLink)
         })
-
 
     }
     componentDidMount() {
