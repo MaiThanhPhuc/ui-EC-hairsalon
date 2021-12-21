@@ -36,15 +36,7 @@ const SignIn = (props) => {
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
-  const parseJwt = token => {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(Buffer(base64, 'base64').split('').map(function (c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
 
-    return JSON.parse(jsonPayload);
-  };
 
   const handleChange = e => {
     const { name, value } = e.target
@@ -86,7 +78,7 @@ const SignIn = (props) => {
             <form sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
-                
+
                 value={state.phone}
                 onChange={handleChange}
 
@@ -101,7 +93,7 @@ const SignIn = (props) => {
               />
               <TextField
                 margin="normal"
-                
+
                 value={state.password}
                 onChange={handleChange}
 
@@ -136,42 +128,33 @@ const SignIn = (props) => {
                 sx={{ mt: 3, mb: 2 }}
                 size="large"
                 onClick={() => {
-                  if (true) {
-                    setIsLoading(true);
-                    AuthService.login(state.phone, state.password)
-                      .then((respone) => {
-                        console.log(respone)
-                        if (respone.status == 200) {
-                          setIsLoading(false);
-                          setOpenConfirmModal(true);
-                          setModalContent("Đăng nhập thành công!");
-                          if (respone.data) {
-                            const decodeData = parseJwt(respone.data);
-                            Storage.SetItem("user", {
-                              phone: decodeData.sub,
-                              token: decodeData.access_token,
-                              role: decodeData.Role[0]
-                            })
-
-                            history.push("/")
-                            console.log(respone)
-                          }
-                        }
-                      })
-                      .catch((error) => {
-                        console.log(error)
-                        console.log(state.phone)
-                        console.log(state.password)
-                        setState({
-                          phone:"",
-                          password:""
-                        })
-                        setOpenConfirmModal(true);
+                  setIsLoading(true);
+                  AuthService.login(state.phone, state.password)
+                    .then((respone) => {
+                      console.log(respone)
+                      if (respone.status == 200) {
                         setIsLoading(false);
-                        setModalContent("Sai mật khẩu hoặc tài khoản");
-                        console.log("Error", error);
+                        setOpenConfirmModal(true);
+                        setModalContent("Đăng nhập thành công!");
+                        if (respone.data) {
+                          Storage.SetItem("user", respone.data)
+
+                          history.push("/")
+                          console.log(respone)
+                        }
+                      }
+                    })
+                    .catch((error) => {
+                      console.log(error)
+                      setState({
+                        phone: "",
+                        password: ""
                       })
-                  }
+                      setOpenConfirmModal(true);
+                      setIsLoading(false);
+                      setModalContent("Sai mật khẩu hoặc tài khoản");
+                      console.log("Error", error);
+                    })
                 }}
               >
                 Sign In
@@ -179,7 +162,7 @@ const SignIn = (props) => {
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2" underline="none">
-                    
+
                   </Link>
                 </Grid>
                 <Grid item>

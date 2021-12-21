@@ -13,6 +13,9 @@ import { LocationOnSharp } from "@mui/icons-material";
 import { Redirect } from "react-router-dom";
 
 import API from '../../Services/api'
+import authHeader from '../../Services/auth-header'
+
+
 import Storage from '../../Services/storage'
 import Navbar from '../../Components/Navbar/Navbar'
 import Footer from '../../Components/Footer/Footer'
@@ -31,7 +34,8 @@ export default class ChooseAgency extends Component {
     }
 
     fetchAngecy = async () => {
-        const respone = await API.get(`agencies`)
+        const respone = await API.get(`agencies`, { headers: authHeader() })
+        console.log(Storage.GetItem('user').access_token)
         this.setState({
             agencies: respone.data,
         })
@@ -40,17 +44,15 @@ export default class ChooseAgency extends Component {
 
     componentDidMount() {
         this.fetchAngecy()
-        this.setState({
-            customer: Storage.GetItem("customer")
-        })
+
 
     }
 
     render() {
         const { agencies } = this.state
 
-        const customer = Storage.GetItem('customer')
-        return customer ? (
+        const user = Storage.GetItem('user')
+        return user ? (
             <div>
                 <Navbar />
                 <Container className='booking-service' maxWidth="md" sx={{ mb: 4 }} >

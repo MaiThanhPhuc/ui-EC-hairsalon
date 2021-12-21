@@ -66,7 +66,7 @@ export class Checkout extends Component {
             choosenSlotID: Storage.GetItem('choosenSlot'),
             choosenService: Storage.GetItem('choosenService'),
             choosenServiceID: Storage.GetItem('choosenServiceID'),
-            clientPhone: Storage.GetItem('customer').phone,
+            clientPhone: Storage.GetItem('user').phone,
         })
 
     }

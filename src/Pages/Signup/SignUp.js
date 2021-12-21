@@ -11,6 +11,8 @@ import { Loading } from '../../Components/Loading';
 import ConfirmModal from '../../Components/ConfirmModal/ConfirmModal';
 
 
+import API from '../../Services/api'
+
 const SignUp = (props) => {
     const [fullName, setFullName] = useState("")
 
@@ -30,8 +32,8 @@ const SignUp = (props) => {
 
     const history = useHistory();
 
-    const customer = Storage.GetItem("customer")
-    return !customer ? (
+    const user = Storage.GetItem("user")
+    return !user ? (
         <Container component="main" maxWidth="xs">
             <ConfirmModal
                 openConfirmModal={openConfirmModal}
@@ -113,17 +115,17 @@ const SignUp = (props) => {
                                     autoComplete="new-password"
                                     inputProps={{
                                         endAdornment: (
-                                          <InputAdornment position="end">
-                                            <IconButton
-                                              aria-label="toggle password visibility"
-                                              onClick={handleClickShowPassword}
-                                              onMouseDown={handleMouseDownPassword}
-                                            >
-                                              {showPassword ? <Visibility /> : <VisibilityOff />}
-                                            </IconButton>
-                                          </InputAdornment>
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                >
+                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
                                         )
-                                      }}
+                                    }}
                                 />
                             </Grid>
                         </Grid>
@@ -135,6 +137,13 @@ const SignUp = (props) => {
                             onClick={() => {
                                 setIsLoading(true);
                                 AuthService.register(fullName, phonenumber, password, address)
+                                /*API.post('/register',
+                                    {
+                                        name: fullName,
+                                        phong: phonenumber,
+                                        password: password,
+                                        address: address
+                                    })*/
                                     .then((respone) => {
                                         if (respone.status == 200) {
                                             if (respone.data) {
@@ -145,6 +154,10 @@ const SignUp = (props) => {
                                             history.push("/")
                                         }
                                     }).catch((error) => {
+                                        console.log(fullName)
+                                        console.log(phonenumber)
+                                        console.log(password)
+                                        console.log(password)
                                         setFullName("")
                                         setPhonenumber("")
                                         setPassword("")

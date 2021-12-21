@@ -10,9 +10,9 @@ function Navbar() {
     const [click, setClick] = useState(false)
     const handleClick = () => setClick(!click)
 
-    const customer = Storage.GetItem("customer");
+    const user = Storage.GetItem("user");
 
-    return customer ? (
+    return user ? (
         <header>
             <nav className='navbar'>
                 <div className='logo'>
