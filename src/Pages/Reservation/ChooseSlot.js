@@ -17,6 +17,7 @@ import {
 import Navbar from '../../Components/Navbar/Navbar'
 import Footer from '../../Components/Footer/Footer'
 
+import { Redirect } from 'react-router-dom';
 //services
 import Storage from '../../Services/storage'
 import userService from '../../Services/user.service';
@@ -83,8 +84,8 @@ export class ChooseSlot extends Component {
             let d = new Date(new Date().setDate(new Date().getDate() + i))
             dateOfWeek[i] = d.getFullYear().toString() + '-' + (d.getMonth() + 1).toString() + '-' + d.getDate().toString()
         }
-
-        return (
+        const user = Storage.GetItem('user')
+        return user ?  (
             <>
                 <Navbar />
                 <Container className='booking-service' maxWidth="sm"  sx={{ mb: 4, height:"75vh" }} >
@@ -168,6 +169,8 @@ export class ChooseSlot extends Component {
                 </Container>
                 <Footer />
             </>
+        ):(
+            <Redirect to='/agency'/>
         )
     }
 }

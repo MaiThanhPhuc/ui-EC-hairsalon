@@ -138,13 +138,6 @@ const SignUp = (props) => {
                             onClick={() => {
                                 setIsLoading(true);
                                 AuthService.register(fullName, phonenumber, password, address)
-                                /*API.post('/register',
-                                    {
-                                        name: fullName,
-                                        phong: phonenumber,
-                                        password: password,
-                                        address: address
-                                    })*/
                                     .then((respone) => {
                                         if (respone.status == 200) {
                                             if (respone.data) {

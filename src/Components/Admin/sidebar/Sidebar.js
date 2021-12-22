@@ -1,5 +1,6 @@
 import React from 'react'
-import "./sidebar.css";
+
+import {Link} from "react-router-dom";
 import {
   LineStyle,
   EventAvailable,
@@ -12,7 +13,8 @@ import {
   ListAlt,
   Menu,
 } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+
+import "./Sidebar.css";
 
 export default function Sidebar() {
   return (
@@ -21,7 +23,7 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Dashboard</h3>
           <ul className="sidebarList">
-            <Link to="/" className="link">
+            <Link to="/admin" className="link">
               <li className="sidebarListItem active">
                 <LineStyle className="sidebarIcon" />
                 Home
@@ -32,19 +34,19 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Quick Menu</h3>
           <ul className="sidebarList">
-            <Link to="/users" className="link">
+            <Link to="/admin/users" className="link">
               <li className="sidebarListItem">
                 <PermIdentity className="sidebarIcon" />
                 Customer
               </li>
             </Link>
-            <Link to="/products" className="link">
+            <Link to="/admin/appointments" className="link">
               <li className="sidebarListItem">
                 <EventAvailable className="sidebarIcon" />
                 Appointment
               </li>
             </Link>
-            <Link to="/services" className="link">
+            <Link to="/admin/services" className="link">
               <li className="sidebarListItem">
                 <Menu className="sidebarIcon" />
                 Services
@@ -56,19 +58,19 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Staff</h3>
           <ul className="sidebarList">
-            <Link to="/staffs" className="link">
+            <Link to="/admin/staffs" className="link">
               <li className="sidebarListItem">
                 <WorkOutline className="sidebarIcon" />
                 Manage Staff
               </li>
             </Link>
-            <Link to="/agencys" className="link">
+            <Link to="/admin/agencys" className="link">
               <li className="sidebarListItem">
                 <Storefront className="sidebarIcon" />
                 Agency
               </li>
             </Link>
-            <Link to="/shifts" className="link">
+            <Link to="/admin/shifts" className="link">
               <li className="sidebarListItem">
                 <ListAlt className="sidebarIcon" />
                 Staff Shift

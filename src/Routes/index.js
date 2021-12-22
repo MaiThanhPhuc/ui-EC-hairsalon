@@ -20,9 +20,7 @@ import Checkout from '../Pages/Reservation/Checkout';
 //admin
 import Admin from '../Pages/Admin';
 
-//routes
-import PrivateRoute from './PrivateRoute';
-import PublicRoute from './PublicRoute';
+
 
 //
 import Storage from '../Services/storage';
@@ -34,7 +32,7 @@ function MyRoutes() {
             <Route path="/admin" component={Admin}/>
             <Route exact path="/" component={Index} />
 
-            <PublicRoute path="/sign-in" isAuthenticated={isAuthenticated}component={SignIn}/>        
+            <Route path="/sign-in" component={SignIn}/>        
             <Route exact path="/sign-up" component={SignUp} />
             <Route exact path="/home" component={Home} />
             <Route exact path="/agency" component={ChooseAgency} />

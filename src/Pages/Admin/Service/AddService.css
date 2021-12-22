@@ -1,0 +1,52 @@
+.newService {
+    flex: 4;
+  }
+  
+  .newServiceForm {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .newServiceItem {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-right: 20px;
+  }
+  
+  .newServiceItem > label {
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgb(151, 150, 150);
+  }
+  
+  .newServiceItem > input {
+    height: 20px;
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+  }
+  
+  .newServiceItem > textarea {
+    height: 100px;
+  }
+  
+  .newServiceSelect {
+    height: 40px;
+    border-radius: 5px;
+  }
+  
+  .newServiceButton {
+    width: 100px;
+    border: none;
+    background-color: darkblue;
+    color: white;
+    padding: 10px 10px;
+    font-weight: 600;
+    border-radius: 10px;
+    margin-top: 30px;
+    cursor: pointer;
+  }
+  

@@ -15,6 +15,7 @@ import {
 import { LocationOnSharp } from "@mui/icons-material";
 import Navbar from '../../Components/Navbar/Navbar'
 import Footer from '../../Components/Footer/Footer'
+import { Redirect } from 'react-router-dom';
 //service
 import Storage from '../../Services/storage';
 import userService from '../../Services/user.service';
@@ -61,8 +62,8 @@ export class Checkout extends Component {
     }
     render() {
         const { choosenStylistID, choosenDateID, clientPhone, choosenService, paypalLink, choosenSlotID } = this.state
-
-        return (
+        const user = Storage.GetItem('user')
+        return user ? (
             <>
                 <Navbar />
                 <Container className='booking-service' maxWidth="sm" sx={{ mb: 4 }} >
@@ -110,6 +111,8 @@ export class Checkout extends Component {
                 </Container>
                 <Footer />
             </>
+        ) : (
+            <Redirect to='/agency'/>
         )
     }
 }

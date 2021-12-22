@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
-import API from '../../Services/api'
+
 import Storage from '../../Services/storage';
 import Navbar from '../../Components/Navbar/Navbar'
 import Footer from '../../Components/Footer/Footer'
 
-import {  Container, Paper, Grid, Typography, ButtonBase, IconButton, Button, Card,Box } from '@mui/material';
+import { Container, Paper, Grid, Typography, ButtonBase, IconButton, Button, Card, Box } from '@mui/material';
 import { BookOnline } from '@mui/icons-material/BookOnline'
+
+
+import userService from '../../Services/user.service'
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 export class ChooseService extends Component {
     constructor(props) {
@@ -41,7 +45,7 @@ export class ChooseService extends Component {
         }
     }
     fetchServices = async () => {
-        const respone = await API.get(`services`)
+        const respone = await userService.getService()
         this.setState({
             services: respone.data
         })
@@ -55,8 +59,8 @@ export class ChooseService extends Component {
 
     render() {
         const { agencyId, services, choosenService, isDisabled } = this.state
-
-        return (
+        const user = Storage.GetItem('user')
+        return user ? (
             <>
                 <Navbar />
                 <Container className='booking-service' maxWidth="sm" sx={{ mb: 4 }} >
@@ -68,7 +72,7 @@ export class ChooseService extends Component {
                             services.map((service) => {
                                 return (
                                     <Container maxWidth="sm" sx={{ mb: 4 }} >
-                                        <Box  sx={ {  boxShadow: "1px 3px 1px #cccccc", border: '1px solid #cccccc', my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 },   display: "flex",flexDirection:"column", alignItems:"center",justifyContent:"center" }}>
+                                        <Box sx={{ boxShadow: "1px 3px 1px #cccccc", border: '1px solid #cccccc', my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                                             <div>
                                                 <ButtonBase onClick={() => { }} sx={{
                                                     width: 180,
@@ -82,21 +86,21 @@ export class ChooseService extends Component {
                                                         height: 180,
                                                         maxWidth: "100%",
                                                         maxHeight: "100%",
-                                                        objectFit:"contain"
+                                                        objectFit: "contain"
                                                     }} />
                                                 </ButtonBase>
                                             </div>
                                             <div>
                                                 <Grid item xs container direction="column" spacing={2}>
                                                     <div style={{
-                                                            width: "180px"
+                                                        width: "180px"
                                                     }}>
                                                         <Typography
                                                             variant="h6"
                                                             gutterBottom
                                                             style={{
-                                                                fontWeight:"300",
-                                                                fontSize:"16px"
+                                                                fontWeight: "300",
+                                                                fontSize: "16px"
                                                             }}
                                                         >
                                                             {service.name}
@@ -144,6 +148,8 @@ export class ChooseService extends Component {
                 </Container>
                 <Footer />
             </>
+        ) : (
+            <Redirect to='/agency'/>
         )
     }
 }

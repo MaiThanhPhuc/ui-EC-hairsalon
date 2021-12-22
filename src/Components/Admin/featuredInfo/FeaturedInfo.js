@@ -1,8 +1,11 @@
 import React from 'react'
-import "./featuredInfo.css";
+
 import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
 
-function FeaturedInfo() {
+import "./featuredInfo.css";
+
+
+export default function FeaturedInfo() {
   return (
     <div className="featured">
       <div className="featuredItem">
@@ -38,5 +41,3 @@ function FeaturedInfo() {
     </div>
   );
 }
-
-export default FeaturedInfo
