@@ -1,14 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { DataGrid } from "@mui/x-data-grid";
 import { DeleteOutline } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
 import "./Appointment.css"
+import AdminService from '../../../Services/admin.service'
+
 
 //import NewProduct from "../newAppointment/NewProduct";
 
 export default function Appointment() {
     const [data, setData] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
+    const [openConfirmModal, setOpenConfirmModal] = useState(false);
+    const [modalContent, setModalContent] = useState("");
+  
+  
+    useEffect(() => {
+      AdminService.Service.getService()
+        .then((respone) => {
+          setData(respone.data);
+          setIsLoading(false);
+          console.log(respone.data)
+        })
+    }, [])
+  
+
 
     const handleDelete = (id) => {
         setData(data.filter((item) => item.id !== id));

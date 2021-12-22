@@ -18,7 +18,7 @@ function UserDetail() {
     const [modalContent, setModalContent] = useState("");
 
     useEffect(() => {
-        AdminService.getClientByID(id).then((respone) => {
+        AdminService.Client.getClientByID(id).then((respone) => {
             setClient(respone.data);
             setState(respone.data);
         })
@@ -35,7 +35,7 @@ function UserDetail() {
     const handleSubmit = e => {
         e.preventDefault();
         console.log(state)
-        AdminService.putClient(client)
+        AdminService.Client.putClient(client)
         .then((respone)=>{
             if(respone.status == 200){
                 setOpenConfirmModal(true);

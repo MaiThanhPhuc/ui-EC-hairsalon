@@ -1,9 +1,16 @@
 import React from 'react'
 import { Category, Description, AttachMoney, Publish } from "@mui/icons-material";
 
+
+import ConfirmModal from '../../../Components/ConfirmModal/ConfirmModal';
 import "./ServiceDetail.css";
+import AdminService from '../../../Services/admin.service'
+
 
 export default function ServiceDetail() {
+
+
+    
     return (
         <div className="service">
             <div className="serviceTitleContainer">

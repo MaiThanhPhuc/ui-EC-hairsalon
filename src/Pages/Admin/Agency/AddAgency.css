@@ -1,0 +1,61 @@
+.newAgency {
+  flex: 4;
+  margin-left: 16px;
+}
+
+.newAgencyForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.newAgencyItem {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  margin-right: 20px;
+}
+.newAgencySelect {
+  height: 40px;
+  border-radius: 5px;
+}
+.newAgencyItem > label {
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(151, 150, 150);
+}
+
+.newAgencyItem > input {
+  height: 20px;
+  padding: 10px;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+
+.newAgencyGender > input {
+  margin-top: 15px;
+}
+
+.newAgencyGender > label {
+  margin: 10px;
+  font-size: 18px;
+  color: #555;
+}
+
+.newAgencySelect {
+  height: 40px;
+  border-radius: 5px;
+}
+
+.newAgencyButton {
+  width: 200px;
+  border: none;
+  background-color: darkblue;
+  color: white;
+  padding: 10px 10px;
+  font-weight: 600;
+  border-radius: 10px;
+  margin-top: 30px;
+  cursor: pointer;
+}

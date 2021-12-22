@@ -64,7 +64,7 @@ export default function Sidebar() {
                 Manage Staff
               </li>
             </Link>
-            <Link to="/admin/agencys" className="link">
+            <Link to="/admin/agencies" className="link">
               <li className="sidebarListItem">
                 <Storefront className="sidebarIcon" />
                 Agency

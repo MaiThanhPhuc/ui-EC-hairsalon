@@ -1,0 +1,143 @@
+.agency {
+  flex: 4;
+  padding: 20px;
+}
+
+.agencyTitleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.agencyContainer {
+  display: flex;
+  margin-top: 20px;
+}
+
+.agencyShow {
+  flex: 1;
+  padding: 20px;
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+}
+
+.agencyUpdate {
+  flex: 2;
+  padding: 20px;
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  margin-left: 20px;
+}
+
+.agencyShowTop {
+  display: flex;
+  align-items: center;
+}
+
+.agencyShowImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.agencyShowTopTitle {
+  display: flex;
+  flex-direction: column;
+}
+
+.agencyShowUsername {
+  font-weight: 600;
+}
+
+.agencyShowUserTitle {
+  font-weight: 300;
+}
+
+.agencyShowBottom {
+  margin-top: 20px;
+}
+
+.agencyShowTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(175, 170, 170);
+}
+
+.agencyShowInfo {
+  display: flex;
+  align-items: center;
+  margin: 20px 0px;
+  color: #444;
+}
+
+.agencyShowIcon {
+  font-size: 16px !important;
+}
+
+.agencyShowInfoTitle {
+  margin-left: 10px;
+}
+
+.agencyUpdateTitle {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.agencyUpdateForm {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.agencyUpdateItem {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.agencyUpdateItem > label {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.agencyUpdateInput {
+  outline: none;
+  border: none;
+  width: 250px;
+  height: 30px;
+  border-bottom: 1px solid gray;
+}
+
+.agencyUpdateRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.agencyUpdateUpload {
+  display: flex;
+  align-items: center;
+}
+
+.agencyUpdateImg {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.agencyUpdateIcon {
+  cursor: pointer;
+}
+.agencyUpdateButton {
+  margin-top: 16px;
+  border-radius: 5px;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  background-color: darkblue;
+  color: white;
+  font-weight: 600;
+}

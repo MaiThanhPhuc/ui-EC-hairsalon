@@ -1,14 +1,13 @@
-.userList {
-  flex: 4;
-  height: 80vh;
+.agencyList {
+flex: 4;
 }
 
-.userListUser {
+.agencyListUser {
   display: flex;
   align-items: center;
 }
 
-.userListImg {
+.agencyListImg {
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -16,7 +15,7 @@
   margin-right: 10px;
 }
 
-.userListEdit {
+.agencyListEdit {
   border: none;
   border-radius: 10px;
   padding: 5px 10px;
@@ -26,12 +25,12 @@
   margin-right: 20px;
 }
 
-.userListDelete {
+.agencyListDelete {
   color: red;
   cursor: pointer;
 }
 
-.userAddButton {
+.agencyAddButton {
   width: 80px;
   border: none;
   padding: 10px 15px;

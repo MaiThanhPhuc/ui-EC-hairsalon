@@ -4,31 +4,33 @@ import { DataGrid } from "@mui/x-data-grid";
 import { DeleteOutline } from "@mui/icons-material";
 import AdminService from "../../../Services/admin.service";
 
+import { Loading } from '../../../Components/Loading'
 import ConfirmModal from '../../../Components/ConfirmModal/ConfirmModal';
 import AddUser from './AddUser';
 import "./User.css";
 
 
-
 export default function User() {
     const [data, setData] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [openConfirmModal, setOpenConfirmModal] = useState(false);
     const [modalContent, setModalContent] = useState("");
 
 
+
     useEffect(() => {
-        AdminService.getClient().then((respone) => {
-            setData(respone.data)
+        AdminService.Client.getClient().then((respone) => {
+            setData(respone.data);
+            setIsLoading(false);
         })
     }, [])
 
     const handleDelete = (id) => {
-        AdminService.deleteClient(id).then((respone) => {
+        AdminService.Client.deleteClient(id).then((respone) => {
             console.log(respone);
-            setData(data.filter((item) => item.id != id));
-        }).then((respone)=>{
-            if(respone.status == 200){
+            setData(data.filter((item) => item.id !== id));
+        }).then((respone) => {
+            if (respone.status == 200) {
                 setOpenConfirmModal(true);
                 setModalContent("Xoá thành công!");
             }
@@ -79,6 +81,7 @@ export default function User() {
             <Link to="/admin/users/add" element={<AddUser />} >
                 <button className="userAddButton">Create</button>
             </Link>
+            {isLoading && <Loading />}
             <DataGrid
                 rows={data}
                 disableSelectionOnClick

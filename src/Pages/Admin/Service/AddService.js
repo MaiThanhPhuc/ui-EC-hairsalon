@@ -1,7 +1,7 @@
 import React from 'react';
 import "./AddService.css";
 
-export default function NewService() {
+export default function AddService() {
   return (
     <div className="newService">
       <h1 className="newServiceTitle">New Service</h1>

@@ -138,8 +138,10 @@ const SignIn = (props) => {
                         setModalContent("Đăng nhập thành công!");
                         if (respone.data) {
                           Storage.SetItem("user", respone.data)
-
-                          history.push("/")
+                          if(respone.data.name=="ROLE_ADMIN")
+                            history.push("/admin")
+                          else
+                            history.push("/")
                           console.log(respone)
                         }
                       }

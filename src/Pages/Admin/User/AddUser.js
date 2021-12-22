@@ -2,7 +2,10 @@ import React, { useState } from 'react'
 
 import "./AddUser.css";
 
+import ConfirmModal from '../../../Components/ConfirmModal/ConfirmModal';
 import AdminService from "../../../Services/admin.service"
+import history from '../../../Services/history';
+
 
 export default function AddUser() {
   const initialState = {
@@ -13,6 +16,9 @@ export default function AddUser() {
   };
 
   const [state, setState] = useState(initialState);
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
+  const [modalContent, setModalContent] = useState("");
+
 
   const clearState = () => {
     setState({ ...initialState });
@@ -25,13 +31,35 @@ export default function AddUser() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    AdminService.postClient(state).then(console.log(state)).then(clearState)
+    AdminService.Client.postClient(state)
+      .then(console.log(state))
+      .then((respone) => {
+        console.log(respone.status)
+        if (respone.status == 200) {
+          setOpenConfirmModal(true);
+          setModalContent("Thêm mới thành công!");
+          clearState();
+        }
+        else{
+          setOpenConfirmModal(true);
+          setModalContent("Không thành công!");
+        }
+      }).catch(error => {
+        setOpenConfirmModal(true);
+        setModalContent("Dữ liệu bị lỗi!");
+      })
   };
 
 
   return (
 
     <div className="newUser">
+      <ConfirmModal
+        openConfirmModal={openConfirmModal}
+        setOpenConfirmModal={setOpenConfirmModal}
+        confirmMesage={"Okay"}
+        modalContent={modalContent}
+      />
       <h1 className="newUserTitle">New Customer</h1>
       <form className="newUserForm" onSubmit={handleSubmit}>
         <label>Name</label>
@@ -50,8 +78,8 @@ export default function AddUser() {
           name="phone"
           value={state.phone}
           onChange={handleOnChange}
-          required 
-          />
+          required
+        />
         <label>Password</label>
         <input
           type="password"

@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+
 import { DataGrid } from "@mui/x-data-grid";
 import { DeleteOutline } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
-import "./Service.css";
+import AddAgency from './AddAgency'
 import { Loading } from '../../../Components/Loading'
 import ConfirmModal from '../../../Components/ConfirmModal/ConfirmModal';
-import AdminService from '../../../Services/admin.service';
+import "./Agency.css";
 
-export default function Service() {
+import AdminService from "../../../Services/admin.service";
+
+
+export default function Agency() {
   const [data, setData] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [modalContent, setModalContent] = useState("");
 
-
   useEffect(() => {
-    AdminService.Service.getService()
-      .then((respone) => {
-        setData(respone.data);
-        setIsLoading(false);
-        console.log(respone.data)
-      })
+    AdminService.Agency.getAgency().then((respone) => {
+      setData(respone.data);
+      console.log(respone.data);
+      setIsLoading(false);
+    })
   }, [])
-
-
 
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
@@ -34,37 +34,16 @@ export default function Service() {
     { field: "id", headerName: "ID", width: 90 },
     {
       field: "name",
-      headerName: "SERVICE",
-      width: 300,
-      renderCell: (params) => {
-        return (
-          <div className="serviceListItem">
-            <img className="serviceListImg" src={params.row.image} alt="" />
-            {params.row.name}
-          </div>
-        );
-      },
-    },
-    {
-      field: "price",
-      headerName: "PRICE",
+      headerName: "AGENCY",
       width: 200,
     },
+    { field: "address", headerName: "ADDRESS", width: 180 },
     {
-      field: "description",
-      headerName: "DESCRIPTION",
-      width: 300,
-    },
-    {
-      field: "category",
-      headerName: "CATEGORY",
-      width: 300,
+      field: "district",
+      headerName: "DISTRICT",
+      width: 180,
       renderCell: (params) => {
-        return (
-          <div className="serviceListItem">
-            {params.row.category.name}
-          </div>
-        );
+        return <div className="agencyListUser">{params.row.address}</div>;
       },
     },
     {
@@ -74,11 +53,11 @@ export default function Service() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/admin/services/" + params.row.id}>
-              <button className="serviceListEdit">Edit</button>
+            <Link to={"/admin/agencies/" + params.row.id}>
+              <button className="agencyListEdit">Edit</button>
             </Link>
             <DeleteOutline
-              className="serviceListDelete"
+              className="agencyListDelete"
               onClick={() => handleDelete(params.row.id)}
             />
           </>
@@ -88,22 +67,22 @@ export default function Service() {
   ];
 
   return (
-    <div className="serviceList">
+    <div className="agencyList">
       <ConfirmModal
         openConfirmModal={openConfirmModal}
         setOpenConfirmModal={setOpenConfirmModal}
         confirmMesage={"Okay"}
         modalContent={modalContent}
       />
-      <Link to="/newService" >
-        <button className="serviceAddButton">Create</button>
+      <Link to="/admin/agencies/add" element={<AddAgency />}>
+        <button className="agencyAddButton">Create</button>
       </Link>
       {isLoading && <Loading />}
       <DataGrid
         rows={data}
         disableSelectionOnClick
         columns={columns}
-        pageSize={8}
+        pageSize={12}
         checkboxSelection
       />
     </div>
