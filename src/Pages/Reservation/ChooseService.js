@@ -20,7 +20,8 @@ export class ChooseService extends Component {
             agencyId: params.agencyId,
             services: [],
             choosenService: [],
-            choosenServiceId: []
+            choosenServiceId: [],
+            totalPrice: 0,
             //isDisabled: false
         }
     }
@@ -29,6 +30,7 @@ export class ChooseService extends Component {
             this.setState({
                 choosenService: this.state.choosenService.concat(service),
                 choosenServiceId: this.state.choosenServiceId.concat(service.id),
+                totalPrice: this.state.totalPrice + service.price,
                 //isDisabled: true
             })
         }
@@ -39,9 +41,10 @@ export class ChooseService extends Component {
 
     onClickForwardToSlot(choosenServiceList) {
         if (choosenServiceList.length != 0) {
-            Storage.SetItem("choosenService", choosenServiceList)
-            Storage.SetItem("choosenServiceID", this.state.choosenServiceId)
-            this.props.history.push(`/agency/${this.state.agencyId}/reservation/slots`)
+            Storage.SetItem("choosenService", choosenServiceList);
+            Storage.SetItem("choosenServiceID", this.state.choosenServiceId);
+            Storage.SetItem("totalPrice", this.state.totalPrice);
+            this.props.history.push(`/agency/${this.state.agencyId}/reservation/slots`);
         }
     }
     fetchServices = async () => {

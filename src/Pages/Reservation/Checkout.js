@@ -28,41 +28,55 @@ export class Checkout extends Component {
         this.state = {
             agencyId: params.agencyId,
             choosenStylistID: [],
+            choosenStylistName: "",
             choosenSlotID: [],
             choosenDateID: [],
             choosenService: [],
             choosenServiceID: [],
             clientPhone: [],
             paypalLink: [],
+            totalPrice: 0,
         }
     }
     handleOnClick() {
-        userService.payment(this.state)
-        .then((respone) => {
-            console.log(respone.data)
-            this.setState({
-                paypalLink: `${respone.data}`
-            })
-            window.location.href = this.state.paypalLink
-            console.log(this.state.paypalLink)
+        userService.payment({
+            clientPhone: this.state.clientPhone,
+            employeeId: this.state.choosenStylistID,
+            paymentId: 5,
+            status: false,
+            idServices: this.state.choosenServiceID,
+            shiftId: this.state.choosenSlotID
         })
+            .then((respone) => {
+                console.log(respone.data)
+                this.setState({
+                    paypalLink: `${respone.data}`
+                })
+                window.location.href = this.state.paypalLink
+                console.log(this.state.paypalLink)
+            })
+
 
     }
     componentDidMount() {
 
         this.setState({
-            choosenStylistID: Storage.GetItem('choosenStylist'),
+            choosenStylistID: Storage.GetItem('choosenStylist').id,
+            choosenStylistName: Storage.GetItem('choosenStylist').name,
             choosenDateID: Storage.GetItem('choosenDate'),
             choosenSlotID: Storage.GetItem('choosenSlot'),
             choosenService: Storage.GetItem('choosenService'),
             choosenServiceID: Storage.GetItem('choosenServiceID'),
             clientPhone: Storage.GetItem('user').phone,
+            totalPrice: Storage.GetItem('totalPrice')
         })
 
     }
     render() {
-        const { choosenStylistID, choosenDateID, clientPhone, choosenService, paypalLink, choosenSlotID } = this.state
-        const user = Storage.GetItem('user')
+        const { choosenStylistID, choosenStylistName, choosenDateID, clientPhone, choosenService, paypalLink, choosenSlotID, totalPrice } = this.state;
+        
+        
+        const user = Storage.GetItem('user');
         return user ? (
             <>
                 <Navbar />
@@ -83,7 +97,7 @@ export class Checkout extends Component {
                         <ListItem sx={{ py: 1, px: 0 }}>
                             <ListItemText primary="Total" />
                             <Typography variant="subtitle1" color="secondary" sx={{ fontWeight: 700 }}>
-                                $34.06
+                                ${totalPrice}
                             </Typography>
                         </ListItem>
                         <Grid container spacing={2}>
@@ -91,8 +105,8 @@ export class Checkout extends Component {
                                 <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
                                     Stylist Phụ trách
                                 </Typography>
-                                <Typography gutterBottom>{choosenStylistID}</Typography>
-                                <Typography gutterBottom>123</Typography>
+                                <Typography gutterBottom>Mã nhân viên phụ trách: {choosenStylistID}</Typography>
+                                <Typography gutterBottom>Tên: {choosenStylistName}</Typography>
                             </Grid>
                             <Grid item container direction="column" xs={12} sm={6}>
                                 <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
@@ -105,14 +119,14 @@ export class Checkout extends Component {
                             </Grid>
                         </Grid>
                         <Button variant="outlined" fullWidth size="large" onClick={() => this.handleOnClick()}>
-                                Click
+                            Click
                         </Button>
                     </Paper>
                 </Container>
                 <Footer />
             </>
         ) : (
-            <Redirect to='/agency'/>
+            <Redirect to='/agency' />
         )
     }
 }

@@ -3,11 +3,16 @@ import authHeader from './auth-header'
 
 const API_URL = `https://hairsalonec.herokuapp.com/api`
 
+const instance = axios.create({
+    baseURL: API_URL,
+    headers: authHeader()
+  });
+
 const requests = {
-    del: (url, param) => axios.delete({url:`${API_URL}/${url}`}, { params: { 'id': param } }, { headers: authHeader() }),
-    get: (url) => axios.get(`${API_URL}/${url}`, { headers: authHeader() }),
-    put: (url, body) => axios.put(`${API_URL}/${url}`, body , { headers: authHeader() }),
-    post: (url, body) => axios.post(`${API_URL}/${url}`, body , { headers: authHeader() }),
+    del: (url, param) => instance.delete(`${url}`, { params: { 'id': param } }),
+    get: (url) => instance.get(`${url}`),
+    put: (url, body) => instance.put(`${url}`, body),
+    post: (url, body) => instance.post(`${url}`, body),
 };
 
 ///////////////////////////////////////CLIENTS//////////////////////////////////////////////////////
@@ -25,21 +30,28 @@ const Client = {
 const Service = {
     getService: () => requests.get('services'),
     postService: (data) => requests.post('services',data),
-    putService: (data) => requests.put('services',data),
+    putService: (data) => requests.put('services', {
+        id: data.id,
+        name: data.name,
+        image: data.image,
+        price: data.price,
+        description: data.description,
+        category: {
+            id: data.category.id,
+            name: data.category.name
+        }
+    }),
     deleteService: (id) => requests.del(`services/${id}`),
     getServiceByID: (id) => requests.get(`services/${id}`),
-    postServiceImage: () => 1,
+    postServiceImage: (id, file) => requests.post(`services/upimg/${id}`, file),
 }
 
 ///////////////////////////////////////APPOINTMENTS///////////////////////////////////////////////
 
 const Appointment = {
-    getAppointment: () => requests.get('services'),
-    postAppointment: (data) => requests.post('services',data),
-    putSAppointment: (data) => requests.put('services',data),
+    getAppointment: () => requests.get('bills'),
     deleteAppointment: (id) => requests.del(`services/${id}`),
     getAppointmentByID: (id) => requests.get(`services/${id}`),
-    postServiceImage: () => 1,
 }
 
 ///////////////////////////////////////AGENCY/////////////////////////////////////////////////////

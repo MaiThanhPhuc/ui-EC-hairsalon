@@ -126,6 +126,8 @@
     outline: none;
     border: none;
     border-bottom: 1px solid gray;
+    font-size: 17px;
+    font-family: "Montserrat", sans-serif;
     width: 250px;
     height: 100px;
   }
@@ -164,3 +166,11 @@
     cursor: pointer;
   }
   
+  .newServiceSelect {
+    height: 40px;
+    border-radius: 5px;
+    margin-top: 10px;
+    width: 200px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 17px;
+  }

@@ -7,6 +7,9 @@ import "./UserDetail.css";
 
 import AdminService from '../../../Services/admin.service'
 
+import axios from 'axios'
+
+
 function UserDetail() {
     const id = useParams().userId;
     const [client, setClient] = useState({})
@@ -35,15 +38,16 @@ function UserDetail() {
     const handleSubmit = e => {
         e.preventDefault();
         console.log(state)
-        AdminService.Client.putClient(client)
+        //AdminService.Client.putClient(client)
+        axios.put('',)
         .then((respone)=>{
             if(respone.status == 200){
                 setOpenConfirmModal(true);
-                setModalContent("Xoá thành công!");
+                setModalContent("Cập nhập thành công!");
             }
             else {
                 setOpenConfirmModal(true);
-                setModalContent("Xoá không thành công!");
+                setModalContent("Cập nhập không thành công!");
             }
         }).catch(error => {
             setOpenConfirmModal(true);

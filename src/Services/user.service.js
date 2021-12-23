@@ -3,49 +3,40 @@ import authHeader from './auth-header'
 
 const API_URL = `https://hairsalonec.herokuapp.com/api`
 
+const instance = axios.create({
+    baseURL: API_URL,
+    headers: authHeader()
+});
 
 const getAgency = () => {
-    return axios
-        .get(API_URL + '/agencies', {
-            headers: authHeader()
-        })
+    return instance
+        .get(API_URL + '/agencies')
 }
 
 
 const getService = () => {
-    return axios
-        .get(API_URL + '/services', {
-            headers: authHeader()
-        })
+    return instance
+        .get(API_URL + '/services')
 }
 
 const getStylist = () => {
-    return axios
-        .get(API_URL + '/employees', { headers: authHeader() })
+    return instance
+        .get(API_URL + '/employees')
 }
 
 const getFreeSlot = (stylistID, dateID) => {
-    return axios
+    return instance
         .get(API_URL + '/shift/check', {
-            headers: authHeader(), params: {
+            params: {
                 employeeId: stylistID,
                 shiftDate: dateID
             }
         })
 }
 
-const payment = ({ info }) => {
-    return axios
-        .post(API_URL + '/bills/pay/paypal/', {
-            headers: authHeader(), data: {
-                clientPhone: info.clientPhone,
-                employeeId: info.choosenStylistID,
-                paymentId: 5,
-                status: false,
-                idServices: info.choosenServiceID,
-                shiftId: info.choosenSlotID
-            }
-        })
+const payment = (info) => {
+    return instance
+        .post(API_URL + '/bills/pay/paypal/', info )
 }
 
 

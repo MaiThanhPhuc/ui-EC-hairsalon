@@ -15,7 +15,7 @@ import AddUser from './User/AddUser';
 import UserDetail from './User/UserDetail';
 //
 import Appointment from './Appointment/Appointment';
-import AddAppointment from './Appointment/AddAppointment';
+import AppointmentDetail from './Appointment/AppointmentDetail';
 //
 import Service from './Service/Service';
 import ServiceDetail from './Service/ServiceDetail';
@@ -24,6 +24,10 @@ import AddService from './Service/AddService';
 import Agency from './Agency/Agency'
 import AddAgency from './Agency/AddAgency'
 import AgencyDetail from './Agency/AgencyDetail'
+//
+import Staff from './Staff/Staff'
+import AddStaff from './Staff/AddStaff'
+import StaffDetail from './Staff/StaffDetail'
 
 
 export default function Admin() {
@@ -42,7 +46,7 @@ export default function Admin() {
             <Route exact path="/admin/users/:userId" component={UserDetail} />
 
             <Route exact path="/admin/appointments" component={Appointment} />
-            <Route exact path="/admin/appointments/add" component={AddAppointment} />
+            <Route exact path="/admin/appointments/:appointmentId" component={AppointmentDetail} />
 
             <Route exact path="/admin/services" component={Service} />
             <Route exact path="/admin/services/add" component={AddService} />
@@ -51,6 +55,10 @@ export default function Admin() {
             <Route exact path="/admin/agencies" component={Agency} />
             <Route exact path="/admin/agencies/add" component={AddAgency} />
             <Route exact path="/admin/agencies/:agencyId" component={AgencyDetail} />
+
+            <Route exact path="/admin/staffs" component={Staff} />
+            <Route exact path="/admin/staffs/add" component={AddStaff} />
+            <Route exact path="/admin/staffs/:staffId" component={StaffDetail} />
           </Switch>
         </div>
       </div>

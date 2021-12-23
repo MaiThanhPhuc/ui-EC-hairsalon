@@ -95,7 +95,7 @@ export default function Service() {
         confirmMesage={"Okay"}
         modalContent={modalContent}
       />
-      <Link to="/newService" >
+      <Link to="/admin/services/add" >
         <button className="serviceAddButton">Create</button>
       </Link>
       {isLoading && <Loading />}

@@ -3,8 +3,7 @@ import React, { useState } from 'react'
 import "./AddUser.css";
 
 import ConfirmModal from '../../../Components/ConfirmModal/ConfirmModal';
-import AdminService from "../../../Services/admin.service"
-import history from '../../../Services/history';
+import AdminService from "../../../Services/admin.service";
 
 
 export default function AddUser() {
@@ -46,7 +45,7 @@ export default function AddUser() {
         }
       }).catch(error => {
         setOpenConfirmModal(true);
-        setModalContent("Dữ liệu bị lỗi!");
+        setModalContent("Dữ liệu bị lỗi!" + error.error_message);
       })
   };
 

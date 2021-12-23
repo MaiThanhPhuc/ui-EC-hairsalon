@@ -36,23 +36,24 @@ export class ChooseSlot extends Component {
             choosenDate: [],
             DateSlotIsDisabled: true,
             TimeSlotIsDisabled: true,
-            ButtonIsDisable: true
+            ButtonIsDisable: true,
+    
         }
+        this.handleOnChooseDate = this.handleOnChooseDate.bind(this);
     }
 
-    handleOnChooseDate(event) {
+    async handleOnChooseDate(event) {
         this.setState({
             choosenDate: event.target.value,
-        })
-        console.log(this.state.freeSlot)
-        userService.getFreeSlot(this.state.choosenStylist, this.state.choosenDate)
+        }, ()=>{
+            userService.getFreeSlot(this.state.choosenStylist.id, this.state.choosenDate)
             .then((respone) => {
                 this.setState({
                     freeSlot: respone.data.hours,
                     TimeSlotIsDisabled: false
                 })
             })
-        console.log(this.state.freeSlot)
+        })
     }
 
     handleOnClick() {
@@ -62,7 +63,7 @@ export class ChooseSlot extends Component {
         console.log(this.state.choosenStylist)
         console.log(this.state.choosenDate)
         console.log(this.state.choosenSlot)
-        //this.props.history.push(`/agency/${this.state.agencyId}/reservation/checkout`)
+        this.props.history.push(`/agency/${this.state.agencyId}/reservation/checkout`)
     }
 
     fetchStylist = async () => {
@@ -85,10 +86,10 @@ export class ChooseSlot extends Component {
             dateOfWeek[i] = d.getFullYear().toString() + '-' + (d.getMonth() + 1).toString() + '-' + d.getDate().toString()
         }
         const user = Storage.GetItem('user')
-        return user ?  (
+        return user ? (
             <>
                 <Navbar />
-                <Container className='booking-service' maxWidth="sm"  sx={{ mb: 4, height:"75vh" }} >
+                <Container className='booking-service' maxWidth="sm" sx={{ mb: 4, height: "75vh" }} >
                     <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                         <div style={{ marginBottom: '2px' }}>
                             Chọn nhân viên
@@ -100,6 +101,7 @@ export class ChooseSlot extends Component {
                                 id="demo-simple-select"
                                 value={choosenStylist}
                                 label="Chọn nhân viên"
+                                option
                                 onChange={(event) => this.setState({
                                     choosenStylist: event.target.value,
                                     DateSlotIsDisabled: false
@@ -108,38 +110,35 @@ export class ChooseSlot extends Component {
                                 {
                                     stylists.map((stylist, index) => {
                                         return (
-                                            <MenuItem value={stylist.id}>{stylist.name}</MenuItem>
+                                            <MenuItem value={stylist}>{stylist.name}</MenuItem>
                                         )
                                     })
 
                                 }
                             </Select>
-
                         </FormControl>
                         <div> Chọn ngày hẹn </div>
-                        {
-                            <FormControl fullWidth sx={{ my: 2 }}>
-                                <InputLabel id="demo-simple-select-label">Chọn ngày hẹn</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    defaultValue={dateOfWeek}
-                                    id="demo-simple-select"
-                                    value={choosenDate}
-                                    label="Chọn ngày hẹn"
-                                    disabled={DateSlotIsDisabled}
-                                    onChange={(event) => this.handleOnChooseDate(event)}
-                                >
-                                    {
-                                        dateOfWeek.map((date) => {
-                                            return (
-                                                <MenuItem value={date}>{date}</MenuItem>
-                                            )
-                                        })
+                        <FormControl fullWidth sx={{ my: 2 }}>
+                            <InputLabel id="demo-simple-select-label">Chọn ngày hẹn</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                defaultValue={dateOfWeek}
+                                id="demo-simple-select"
+                                value={choosenDate}
+                                label="Chọn ngày hẹn"
+                                disabled={DateSlotIsDisabled}
+                                onChange={(event) => this.handleOnChooseDate(event)}
+                            >
+                                {
+                                    dateOfWeek.map((date) => {
+                                        return (
+                                            <MenuItem value={date}>{date}</MenuItem>
+                                        )
+                                    })
 
-                                    }
-                                </Select>
-                            </FormControl>
-                        }
+                                }
+                            </Select>
+                        </FormControl>
                         <div> Chọn giờ hẹn </div>
                         <FormControl fullWidth sx={{ my: 2 }}>
                             <InputLabel id="demo-simple-select-label">Chọn giờ hẹn</InputLabel>
@@ -169,8 +168,8 @@ export class ChooseSlot extends Component {
                 </Container>
                 <Footer />
             </>
-        ):(
-            <Redirect to='/agency'/>
+        ) : (
+            <Redirect to='/agency' />
         )
     }
 }
